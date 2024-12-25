@@ -9,19 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace Twigit;
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class ExampleTest extends TestCase
+class DebugHelper
 {
-    public function test_example_true_is_true(): void
+    public static function debugContext(array $context): void
     {
-        $this->assertTrue(true);
+        if (\defined('WP_DEBUG') && WP_DEBUG) {
+            echo '<pre>' . print_r($context, true) . '</pre>';
+        }
     }
 }

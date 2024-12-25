@@ -9,19 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace Twigit;
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class ExampleTest extends TestCase
+class WidgetHelper
 {
-    public function test_example_true_is_true(): void
+    public static function render($widgetId)
     {
-        $this->assertTrue(true);
+        ob_start();
+        the_widget($widgetId);
+
+        return ob_get_clean();
     }
 }
