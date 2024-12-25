@@ -1,0 +1,14 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<h1>{{ archive.title }}</h1>
+<p>{{ archive.description }}</p>
+<ul>
+    {% for post in archive.posts %}
+        <li>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+            <p>{{ post.excerpt }}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

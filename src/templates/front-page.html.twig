@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ site_name }}</title>
+</head>
+<body>
+    <h1>Welcome to {{ site_name }}</h1>
+    <div class="content">
+        <h2>Posts</h2>
+        <ul>
+            {% for post in posts %}
+                <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+            <div class="prev">{{ pagination.prev }}</div>
+            <div class="next">{{ pagination.next }}</div>
+        </div>
+    </div>
+</body>
+</html>

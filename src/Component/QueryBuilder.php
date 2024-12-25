@@ -9,19 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Unit;
+namespace Twigit;
 
-use PHPUnit\Framework\TestCase;
+use WP_Query;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class ExampleTest extends TestCase
+class QueryBuilder
 {
-    public function test_example_true_is_true(): void
+    public static function query(array $args): array
     {
-        $this->assertTrue(true);
+        $query = new WP_Query($args);
+
+        return array_map(fn ($post) => new Models\Post($post), $query->posts);
     }
 }

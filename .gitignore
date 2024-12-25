@@ -1,9 +1,16 @@
+tests.txt
 composer.phar
 composer.lock
 .phpunit.result.cache
+docs/node_modules
+/node_modules
+/docs/dist
 /vendor
 /coverage-report
 /tmp
+/wordpress
+/wp
+/public/wp
 /.github
 /.idea
 /.phpdoc/cache
