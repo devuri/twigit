@@ -21,6 +21,10 @@ class Functions extends AbstractExtension
         return [
             new TwigFunction('site_url', 'get_site_url'),
             new TwigFunction('home_url', 'get_home_url'),
+            new TwigFunction('wp_head', 'wp_head'),
+            new TwigFunction('body_class', 'body_class'),
+            new TwigFunction('wp_body_open', 'wp_body_open'),
+            new TwigFunction('wp_footer', 'wp_body_open'),
 
             // Additional WordPress utility functions
             new TwigFunction('get_permalink', 'get_permalink'),
@@ -28,6 +32,7 @@ class Functions extends AbstractExtension
             new TwigFunction('get_the_excerpt', 'get_the_excerpt'),
             new TwigFunction('wp_nav_menu', 'wp_nav_menu'),
             new TwigFunction('comments_template', 'comments_template'),
+            new TwigFunction('_e', '_e'),
 
             // Add utility functions for integration and queries
             new TwigFunction('acf_field', ['Twigit\\Integration\\AcfIntegration', 'getField']),
@@ -38,6 +43,11 @@ class Functions extends AbstractExtension
             // Add functions for custom post types, taxonomies, menus, and widgets
             new TwigFunction('get_menu', ['Twigit\\MenuHelper', 'getMenu']),
             new TwigFunction('render_widget', ['Twigit\\WidgetHelper', 'render']),
+
+			// debug
+			new TwigFunction('dump', 'dump'),
+			new TwigFunction('var_dump', 'var_dump'),
+			new TwigFunction('print_r', 'print_r'),
         ];
     }
 }

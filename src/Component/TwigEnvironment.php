@@ -29,11 +29,18 @@ class TwigEnvironment
         $this->appDirPath = $appDirPath;
         $this->templatesDir = $this->appDirPath . '/templates';
         $this->coreTemplatesDir = \dirname(__DIR__) . '/templates';
+        $cached = self::debugMode() ? false : $this->appDirPath . '/cache/twigit';
 
         $this->envOptions = array_merge([
             'autoescape' => 'html', // use false to disable but be careful
-            'cache' => $this->appDirPath . '/cache/twigit',
+            'cache' => $cached,
+            'debug' => self::debugMode(),
         ], $options);
+    }
+
+    public static function debugMode(): bool
+    {
+        return defined('WP_DEBUG') && true === constant('WP_DEBUG');
     }
 
     /**

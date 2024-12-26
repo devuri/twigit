@@ -62,7 +62,15 @@ class Template
             return $selected;
         }, 'index.html.twig');
 
-        $rendered = $twig->render($selectedTemplate, $context);
+        try {
+            $rendered = $twig->render($selectedTemplate, $context);
+        } catch (Exception $e) {
+            if (strpos($e->getMessage(), "to find template")) {
+                throw new \Exception("Unable to find template: {$selectedTemplate}");
+            } else {
+                throw new \Exception($e->getMessage());
+            }
+        }
 
         echo $rendered;
     }

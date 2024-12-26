@@ -20,6 +20,11 @@ class Twigit
         $this->twigEnvironment = (new TwigEnvironment($appDirPath, $options))->create();
     }
 
+    public function twig(): ?\Twig\Environment
+    {
+        return $this->twigEnvironment;
+    }
+
     public function render(string $template, array $context = []): string
     {
         $context = array_merge(self::getContext(), $context);
@@ -41,9 +46,9 @@ class Twigit
         return new self($appDirPath, $options);
     }
 
-    public function action(): void
+    public function templateFilter(): void
     {
-        add_action('template_include', [$this, 'handleTemplate']);
+        add_filter('template_include', [$this, 'handleTemplate']);
     }
 
     public function handleTemplate(string $template): void
