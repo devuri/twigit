@@ -13,10 +13,12 @@ namespace Twigit;
 
 class Twigit
 {
+    protected static array $templates;
     private \Twig\Environment $twigEnvironment;
 
-    public function __construct(string $appDirPath, array $options = [])
+    public function __construct(string $appDirPath, array $options = [], $templates = [])
     {
+        self::$templates = $templates;
         $this->twigEnvironment = (new TwigEnvironment($appDirPath, $options))->create();
     }
 
@@ -41,18 +43,19 @@ class Twigit
         return apply_filters('twigit_context', $context);
     }
 
-    public static function init(string $appDirPath, array $options = []): self
+    public static function init(string $appDirPath, array $options = [], $templates = []): self
     {
-        return new self($appDirPath, $options);
+        return new self($appDirPath, $options, $templates);
     }
 
     public function templateFilter(): void
     {
+        // @phpstan-ignore-next-line
         add_filter('template_include', [$this, 'handleTemplate']);
     }
 
     public function handleTemplate(string $template): void
     {
-        Template::resolveTemplate($this->twigEnvironment, self::getContext());
+        Template::resolveTemplate($this->twigEnvironment, self::getContext(), self::$templates);
     }
 }

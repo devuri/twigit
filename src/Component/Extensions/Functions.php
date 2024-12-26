@@ -44,10 +44,10 @@ class Functions extends AbstractExtension
             new TwigFunction('get_menu', ['Twigit\\MenuHelper', 'getMenu']),
             new TwigFunction('render_widget', ['Twigit\\WidgetHelper', 'render']),
 
-			// debug
-			new TwigFunction('dump', 'dump'),
-			new TwigFunction('var_dump', 'var_dump'),
-			new TwigFunction('print_r', 'print_r'),
+            // debug
+            new TwigFunction('var_dump', 'var_dump'),
+            new TwigFunction('print_r', 'print_r'),
+            new TwigFunction('dump', 'dump'),
         ];
     }
 }

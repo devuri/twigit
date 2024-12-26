@@ -1,10 +1,10 @@
-{% extends "layouts/base.html.twig" %}
+{% extends "layouts/default.twig" %}
 
 {% block content %}
-<h1>Category: {{ taxonomy.name }}</h1>
-<p>{{ taxonomy.description }}</p>
+<h1>{{ archive.title }}</h1>
+<p>{{ archive.description }}</p>
 <ul>
-    {% for post in taxonomy.posts %}
+    {% for post in archive.posts %}
         <li>
             <a href="{{ post.url }}">{{ post.title }}</a>
             <p>{{ post.excerpt }}</p>

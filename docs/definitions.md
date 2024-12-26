@@ -54,7 +54,7 @@ Twig is a robust templating engine with its own set of abstract terms and concep
 - **Key Tags**: `{% extends %}`, `{% block %}`
 - **Example**:
     ```twig
-    {# base.html.twig #}
+    {# default.twig #}
     <html>
         <body>
             {% block content %}{% endblock %}
@@ -62,7 +62,7 @@ Twig is a robust templating engine with its own set of abstract terms and concep
     </html>
 
     {# child.html.twig #}
-    {% extends 'base.html.twig' %}
+    {% extends 'default.twig' %}
     {% block content %}
         <p>Hello, World!</p>
     {% endblock %}
@@ -106,7 +106,7 @@ Twig is a robust templating engine with its own set of abstract terms and concep
 - **Purpose**: To include a template and override its blocks in the same file.
 - **Example**:
     ```twig
-    {% embed 'base.html.twig' %}
+    {% embed 'default.twig' %}
         {% block title %}Custom Title{% endblock %}
     {% endembed %}
     ```

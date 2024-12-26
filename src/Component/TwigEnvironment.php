@@ -40,7 +40,7 @@ class TwigEnvironment
 
     public static function debugMode(): bool
     {
-        return defined('WP_DEBUG') && true === constant('WP_DEBUG');
+        return \defined('WP_DEBUG') && true === \constant('WP_DEBUG');
     }
 
     /**
