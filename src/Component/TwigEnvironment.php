@@ -27,7 +27,7 @@ class TwigEnvironment
     public function __construct(string $appDirPath, array $options = [], ?string $tenantID = null)
     {
         $this->appDirPath = $appDirPath;
-		$this->templatesDir = $this->setTemplatesDir($tenantID);
+        $this->templatesDir = $this->setTemplatesDir($tenantID);
         $this->coreTemplatesDir = \dirname(__DIR__) . '/templates';
         $cached = self::debugMode() ? false : $this->appDirPath . '/cache/twigit';
 
@@ -37,27 +37,6 @@ class TwigEnvironment
             'debug' => self::debugMode(),
         ], $options);
     }
-
-	/**
-	 * Sets the directory path for templates based on the provided tenant ID.
-	 *
-	 * This method determines the appropriate directory path for templates.
-	 * If a tenant ID is provided, the method appends it to the templates directory path.
-	 * Otherwise, it defaults to the main templates directory.
-	 *
-	 * @param string|null $tenantID Optional. The tenant ID to specify a subdirectory in the templates directory.
-	 *                               If null, the main templates directory path is returned.
-	 *
-	 * @return string The resolved path to the templates directory, with or without a tenant-specific subdirectory.
-	 */
-	private function setTemplatesDir(?string $tenantID = null): string
-	{
-		if ($tenantID) {
-			return "{$this->appDirPath}/templates/{$tenantID}";
-		}
-
-		return "{$this->appDirPath}/templates";
-	}
 
     public static function debugMode(): bool
     {
@@ -101,6 +80,27 @@ class TwigEnvironment
         $this->twig->addExtension(new Filters());
 
         return $this->twig;
+    }
+
+    /**
+     * Sets the directory path for templates based on the provided tenant ID.
+     *
+     * This method determines the appropriate directory path for templates.
+     * If a tenant ID is provided, the method appends it to the templates directory path.
+     * Otherwise, it defaults to the main templates directory.
+     *
+     * @param null|string $tenantID Optional. The tenant ID to specify a subdirectory in the templates directory.
+     *                              If null, the main templates directory path is returned.
+     *
+     * @return string The resolved path to the templates directory, with or without a tenant-specific subdirectory.
+     */
+    private function setTemplatesDir(?string $tenantID = null): string
+    {
+        if ($tenantID) {
+            return "{$this->appDirPath}/templates/{$tenantID}";
+        }
+
+        return "{$this->appDirPath}/templates";
     }
 
     /**
