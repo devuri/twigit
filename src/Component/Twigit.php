@@ -14,9 +14,11 @@ namespace Twigit;
 class Twigit
 {
     private \Twig\Environment $twigEnvironment;
+    protected static array $templates;
 
-    public function __construct(string $appDirPath, array $options = [])
+    public function __construct(string $appDirPath, array $options = [], $templates = [])
     {
+		self::$templates = $templates;
         $this->twigEnvironment = (new TwigEnvironment($appDirPath, $options))->create();
     }
 
@@ -41,9 +43,9 @@ class Twigit
         return apply_filters('twigit_context', $context);
     }
 
-    public static function init(string $appDirPath, array $options = []): self
+    public static function init(string $appDirPath, array $options = [], $templates = []): self
     {
-        return new self($appDirPath, $options);
+        return new self($appDirPath, $options, $templates);
     }
 
     public function templateFilter(): void
@@ -53,6 +55,6 @@ class Twigit
 
     public function handleTemplate(string $template): void
     {
-        Template::resolveTemplate($this->twigEnvironment, self::getContext());
+        Template::resolveTemplate($this->twigEnvironment, self::getContext(), self::$templates);
     }
 }
