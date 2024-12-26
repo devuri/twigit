@@ -16,7 +16,7 @@ class Context
     private static ?Context $instance = null;
     private array $cache = [];
 
-    private function __construct()
+    protected function __construct()
     {
         $this->initializeCache();
     }
@@ -44,7 +44,7 @@ class Context
         $this->initializeCache();
     }
 
-    private function initializeCache(): void
+    protected function initializeCache(): void
     {
         $this->cache['context'] = [
             'site' => $this->getSiteInfo(),
@@ -61,7 +61,7 @@ class Context
         ];
     }
 
-    private function getSiteInfo(): array
+    protected function getSiteInfo(): array
     {
         return [
             'url' => home_url(),
@@ -73,10 +73,23 @@ class Context
             'is_logged_in' => is_user_logged_in(),
             'pagination' => Pagination::getPaginationLinks(),
             'options' => ThemeOptions::getOptions(),
+
+			// header info
+			'language_attributes' => get_language_attributes(),
+			'content-type' => get_bloginfo('html_type'),
+			'charset' => get_bloginfo('charset'),
+			'wp_get_document_title' => wp_get_document_title(),
+			'stylesheet_url' => get_bloginfo('stylesheet_url'),
+			'body_class' => [$this, 'get_body_class'],
         ];
     }
 
-    private function getUserInfo(): array
+	private function get_body_class()
+	{
+		return 'class="' . esc_attr( implode( ' ', get_body_class( $css_class ) ) ) . '"';
+	}
+
+    protected function getUserInfo(): array
     {
         return is_user_logged_in() ? [
             'name' => wp_get_current_user()->display_name,
@@ -87,12 +100,12 @@ class Context
         ];
     }
 
-    private function getMenuInfo(): array
+    protected function getMenuInfo(): array
     {
         return wp_get_nav_menu_items('primary') ?: [];
     }
 
-    private function getPageInfo(): ?array
+    protected function getPageInfo(): ?array
     {
         if ( ! is_page()) {
             return null;
@@ -105,7 +118,7 @@ class Context
         ];
     }
 
-    private function getPostInfo(): ?array
+    protected function getPostInfo(): ?array
     {
         if ( ! is_single()) {
             return null;
@@ -124,7 +137,7 @@ class Context
         ];
     }
 
-    private function getArchiveInfo(): ?array
+    protected function getArchiveInfo(): ?array
     {
         if ( ! is_archive()) {
             return null;
@@ -137,12 +150,12 @@ class Context
         ];
     }
 
-    private function getSearchQuery(): ?string
+    protected function getSearchQuery(): ?string
     {
         return is_search() ? get_search_query() : null;
     }
 
-    private function getSearchResults(): ?array
+    protected function getSearchResults(): ?array
     {
         if ( ! is_search()) {
             return null;
@@ -151,7 +164,7 @@ class Context
         return $this->getPosts(['s' => get_search_query(), 'posts_per_page' => 10]);
     }
 
-    private function getTaxonomyInfo(): ?array
+    protected function getTaxonomyInfo(): ?array
     {
         if ( ! (is_category() || is_tag() || is_tax())) {
             return null;
@@ -164,7 +177,7 @@ class Context
         ];
     }
 
-    private function getDateInfo(): ?array
+    protected function getDateInfo(): ?array
     {
         if ( ! is_date()) {
             return null;
@@ -178,7 +191,7 @@ class Context
         ];
     }
 
-    private function getAuthorInfo(): ?array
+    protected function getAuthorInfo(): ?array
     {
         if ( ! is_author()) {
             return null;
@@ -191,7 +204,7 @@ class Context
         ];
     }
 
-    private function getPosts(array $args): array
+    protected function getPosts(array $args): array
     {
         return array_map(function ($post) {
             return [
