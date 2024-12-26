@@ -23,7 +23,7 @@ Twigit can be configured via an mu-plugin or programmatically to locate template
 ```php
 // Recommended to define constants upstream for flexibility.
 if (\defined('USE_TWIGIT') && true === \constant('USE_TWIGIT')) {
-    $twig = Twigit\Twigit::init('path/to/mysite/templates', ['autoescape' => 'html']);
+    $twig = Twigit\Twigit::init('path/to/mysite', ['autoescape' => 'html']);
 
     // Apply a template filter that overrides traditional theme handling.
     $twig->templateFilter();
