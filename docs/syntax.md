@@ -64,7 +64,7 @@
 
 5. **Extending Templates**
 ```twig
-{# base.html.twig #}
+{# default.twig #}
 <!DOCTYPE html>
 <html>
     <body>
@@ -73,7 +73,7 @@
 </html>
 
 {# child.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'default.twig' %}
 {% block content %}
     <p>Hello World!</p>
 {% endblock %}

@@ -50,7 +50,7 @@
 ### **Extending Templates**
 **Base Template:**
 ```twig
-{# base.html.twig #}
+{# default.twig #}
 <!DOCTYPE html>
 <html>
     <body>
@@ -61,7 +61,7 @@
 
 **Child Template:**
 ```twig
-{% extends 'base.html.twig' %}
+{% extends 'default.twig' %}
 {% block content %}
     <p>Hello from child template!</p>
 {% endblock %}
