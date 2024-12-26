@@ -13,12 +13,12 @@ namespace Twigit;
 
 class Twigit
 {
-    private \Twig\Environment $twigEnvironment;
     protected static array $templates;
+    private \Twig\Environment $twigEnvironment;
 
     public function __construct(string $appDirPath, array $options = [], $templates = [])
     {
-		self::$templates = $templates;
+        self::$templates = $templates;
         $this->twigEnvironment = (new TwigEnvironment($appDirPath, $options))->create();
     }
 
@@ -50,6 +50,7 @@ class Twigit
 
     public function templateFilter(): void
     {
+        // @phpstan-ignore-next-line
         add_filter('template_include', [$this, 'handleTemplate']);
     }
 

@@ -65,13 +65,14 @@ class Template
         try {
             $rendered = $twig->render($selectedTemplate, $context);
         } catch (Exception $e) {
-			if (strpos($e->getMessage(), "directory does not exist")) {
-                throw new \Exception("Templates directory does not exist: {$selectedTemplate}");
-            } elseif (strpos($e->getMessage(), "to find template")) {
-                throw new \Exception("Unable to find template: {$selectedTemplate}");
-            } else {
-                throw new \Exception($e->getMessage());
+            if (strpos($e->getMessage(), "directory does not exist")) {
+                throw new Exception("Templates directory does not exist: {$selectedTemplate}");
             }
+            if (strpos($e->getMessage(), "to find template")) {
+                throw new Exception("Unable to find template: {$selectedTemplate}");
+            }
+
+            throw new Exception($e->getMessage());
         }
 
         echo $rendered;

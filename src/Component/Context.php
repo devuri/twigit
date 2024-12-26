@@ -74,20 +74,15 @@ class Context
             'pagination' => Pagination::getPaginationLinks(),
             'options' => ThemeOptions::getOptions(),
 
-			// header info
-			'language_attributes' => get_language_attributes(),
-			'content-type' => get_bloginfo('html_type'),
-			'charset' => get_bloginfo('charset'),
-			'wp_get_document_title' => wp_get_document_title(),
-			'stylesheet_url' => get_bloginfo('stylesheet_url'),
-			'body_class' => [$this, 'get_body_class'],
+            // header info
+            'language_attributes' => get_language_attributes(),
+            'content-type' => get_bloginfo('html_type'),
+            'charset' => get_bloginfo('charset'),
+            'wp_get_document_title' => wp_get_document_title(),
+            'stylesheet_url' => get_bloginfo('stylesheet_url'),
+            'body_class' => [$this, 'get_body_class'],
         ];
     }
-
-	private function get_body_class()
-	{
-		return 'class="' . esc_attr( implode( ' ', get_body_class( $css_class ) ) ) . '"';
-	}
 
     protected function getUserInfo(): array
     {
@@ -213,5 +208,10 @@ class Context
                 'excerpt' => get_the_excerpt($post),
             ];
         }, get_posts($args));
+    }
+
+    private function get_body_class($css_class = '')
+    {
+        return 'class="' . esc_attr(implode(' ', get_body_class($css_class))) . '"';
     }
 }
