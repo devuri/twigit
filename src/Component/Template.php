@@ -34,22 +34,22 @@ class Template
     public static function render(\Twig\Environment $twig, array $context, array $templates = []): void
     {
         $defaultTemplates = [
-            'is_embed'             => 'embed.html.twig',
-            'is_404'               => '404.html.twig',
-            'is_search'            => 'search.html.twig',
-            'is_front_page'        => 'front_page.html.twig',
-            'is_home'              => 'home.html.twig',
-            'is_privacy_policy'    => 'privacy_policy.html.twig',
-            'is_post_type_archive' => 'post_type_archive.html.twig',
-            'is_tax'               => 'taxonomy.html.twig',
-            'is_attachment'        => 'attachment.html.twig',
-            'is_single'            => 'single.html.twig',
-            'is_page'              => 'page.html.twig',
-            'is_category'          => 'category.html.twig',
-            'is_tag'               => 'tag.html.twig',
-            'is_author'            => 'author.html.twig',
-            'is_date'              => 'date.html.twig',
-            'is_archive'           => 'archive.html.twig',
+            'is_embed'             => 'embed.twig',
+            'is_404'               => '404.twig',
+            'is_search'            => 'search.twig',
+            'is_front_page'        => 'front_page.twig',
+            'is_home'              => 'home.twig',
+            'is_privacy_policy'    => 'privacy_policy.twig',
+            'is_post_type_archive' => 'post_type_archive.twig',
+            'is_tax'               => 'taxonomy.twig',
+            'is_attachment'        => 'attachment.twig',
+            'is_single'            => 'single.twig',
+            'is_page'              => 'page.twig',
+            'is_category'          => 'category.twig',
+            'is_tag'               => 'tag.twig',
+            'is_author'            => 'author.twig',
+            'is_date'              => 'date.twig',
+            'is_archive'           => 'archive.twig',
         ];
 
         $templates = array_merge($defaultTemplates, $templates);
@@ -60,12 +60,14 @@ class Template
             }
 
             return $selected;
-        }, 'index.html.twig');
+        }, 'index.twig');
 
         try {
             $rendered = $twig->render($selectedTemplate, $context);
         } catch (Exception $e) {
-            if (strpos($e->getMessage(), "to find template")) {
+			if (strpos($e->getMessage(), "directory does not exist")) {
+                throw new \Exception("Templates directory does not exist: {$selectedTemplate}");
+            } elseif (strpos($e->getMessage(), "to find template")) {
                 throw new \Exception("Unable to find template: {$selectedTemplate}");
             } else {
                 throw new \Exception($e->getMessage());

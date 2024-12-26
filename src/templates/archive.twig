@@ -1,10 +1,9 @@
-{% extends "layouts/base.html.twig" %}
+{% extends "layouts/default.twig" %}
 
 {% block content %}
-<h1>Posts by {{ author.name }}</h1>
-<p>{{ author.bio }}</p>
+<h1>Latest Posts</h1>
 <ul>
-    {% for post in author.posts %}
+    {% for post in archive.posts %}
         <li>
             <a href="{{ post.url }}">{{ post.title }}</a>
             <p>{{ post.excerpt }}</p>
