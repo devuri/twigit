@@ -14,12 +14,14 @@ namespace Twigit;
 class Twigit
 {
     protected static array $templates;
+    protected Template $resolver;
     private \Twig\Environment $twigEnvironment;
 
     public function __construct(string $appDirPath, array $options = [], $templates = [])
     {
         self::$templates = $templates;
         $this->twigEnvironment = (new TwigEnvironment($appDirPath, $options))->create();
+        $this->resolver = new Template($this->twigEnvironment);
     }
 
     public function twig(): ?\Twig\Environment
@@ -56,6 +58,6 @@ class Twigit
 
     public function handleTemplate(string $template): void
     {
-        Template::resolveTemplate($this->twigEnvironment, self::getContext(), self::$templates);
+        $this->resolver->view(self::getContext(), self::$templates);
     }
 }

@@ -53,7 +53,7 @@ class TwigEnvironment
      */
     public function create(): \Twig\Environment
     {
-        $this->validateTemplatesDirectory();
+        $this->validateTemplatesDirectory($this->templatesDir);
 
         try {
             $loader = new FilesystemLoader([$this->templatesDir, $this->coreTemplatesDir]);
@@ -97,10 +97,18 @@ class TwigEnvironment
     private function setTemplatesDir(?string $tenantID = null): string
     {
         if ($tenantID) {
-            return "{$this->appDirPath}/templates/{$tenantID}";
+            $templatesdir = "{$this->appDirPath}/templates/{$tenantID}";
         }
 
-        return "{$this->appDirPath}/templates";
+        $templatesdir = "{$this->appDirPath}/templates";
+
+        if ( ! $this->validateTemplatesDirectory($templatesdir, false)) {
+            if ( ! mkdir($templatesdir, 0777, true)) {
+                throw new Exception("Failed to create `templates` directory");
+            }
+        }
+
+        return $templatesdir;
     }
 
     /**
@@ -108,11 +116,15 @@ class TwigEnvironment
      *
      * @throws Exception If the templates directory does not exist.
      */
-    private function validateTemplatesDirectory(): void
+    private function validateTemplatesDirectory(string $templatesDir, bool $withException = true): bool
     {
-        if ( ! is_dir($this->templatesDir)) {
-            throw new Exception("Templates directory does not exist: {$this->templatesDir}");
+        $isValidDirectory = is_dir($templatesDir);
+
+        if ( ! $isValidDirectory && $withException) {
+            throw new Exception("Templates directory does not exist: {$templatesDir}");
         }
+
+        return $isValidDirectory;
     }
 
     /**
