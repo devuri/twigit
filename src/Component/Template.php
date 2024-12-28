@@ -12,23 +12,39 @@
 namespace Twigit;
 
 use Exception;
+use WP_Post;
 
 class Template
 {
+    private \Twig\Environment $twig;
+
+    public function __construct(\Twig\Environment $twig)
+    {
+        $this->twig = $twig;
+    }
+
     /**
      * Shortcut method to resolve and render the template.
      */
-    public static function resolveTemplate(\Twig\Environment $twig, array $context, array $templates = []): void
+    public function resolve(array $context, array $templates = []): void
     {
-        self::render($twig, $context, $templates);
+        $this->render($context, $templates);
+    }
+
+    /**
+     * Shortcut method to resolve and render the template.
+     */
+    public function view(array $context, array $templates = []): void
+    {
+        $this->render($context, $templates);
     }
 
     /**
      * Renders the appropriate Twig template based on WordPress conditional tags.
      *
-     * @throws \Exception If the selected template file does not exist.
+     * @throws Exception If the selected template file does not exist.
      */
-    public static function render(\Twig\Environment $twig, array $context, array $templates = []): void
+    public function render(array $context, array $templates = []): void
     {
         $defaultTemplates = [
             'is_embed'             => 'embed.twig',
@@ -50,32 +66,35 @@ class Template
         ];
 
         $templates       = array_merge($defaultTemplates, $templates);
-        $postItem        = self::getPost();
-        $loader          = $twig->getLoader();
-		$context['item'] = $postItem;
-        $selectedTemplate = self::selectTemplate($templates, $postItem, $loader);
+        $postItem        = $this->getPost();
+        // @phpstan-ignore-next-line
+        $loaderPath      = $this->twig->getLoader()->getPaths();
+        $context['item'] = $postItem;
+        $selectedTemplate = $this->selectTemplate($templates, $postItem, $loaderPath);
 
-        self::tryRenderTemplate($twig, $selectedTemplate, $context);
+        $this->tryRenderTemplate($selectedTemplate, $context);
     }
 
     /**
      * Determine the final template name to be used, using array_reduce to check WordPress conditionals.
      */
-    protected static function selectTemplate(array $templates, ?\WP_Post $post, \Twig\Loader\FilesystemLoader $loader): string
+    protected function selectTemplate(array $templates, ?WP_Post $post, array $loaderPath): string
     {
         return array_reduce(
             array_keys($templates),
-            function ($selected, $condition) use ($templates, $post, $loader) {
+            function ($selected, $condition) use ($templates, $post, $loaderPath) {
                 if (\function_exists($condition) && $condition()) {
                     // Special handling for is_page slug
-                    if ($condition === 'is_page' && isset($post->post_name)) {
+                    if ('is_page' === $condition && isset($post->post_name)) {
                         $pageTemplate = "{$post->post_name}.twig";
-                        if (self::templateExists($loader, $pageTemplate)) {
+                        if ($this->templateExists($loaderPath, $pageTemplate)) {
                             return $pageTemplate;
                         }
                     }
+
                     return $templates[$condition];
                 }
+
                 return $selected;
             },
             'index.twig'
@@ -85,35 +104,42 @@ class Template
     /**
      * Attempts to render the selected Twig template and echoes the output.
      *
-     * @throws \Exception If the template cannot be found or any Twig error occurs.
+     * @throws Exception If the template cannot be found or any Twig error occurs.
      */
-    protected static function tryRenderTemplate(\Twig\Environment $twig, string $selectedTemplate, array $context): void
+    protected function tryRenderTemplate(string $selectedTemplate, array $context): void
     {
         try {
-            echo $twig->render($selectedTemplate, $context);
-        } catch (\Exception $e) {
+            echo $this->twig->render($selectedTemplate, $context);
+        } catch (Exception $e) {
             // Check if the exception message indicates a missing template.
-            if (strpos($e->getMessage(), 'to find template') !== false) {
-                throw new \Exception("Unable to find template: {$selectedTemplate}");
+            if (false !== strpos($e->getMessage(), 'to find template')) {
+                throw new Exception("Unable to find template: {$selectedTemplate}");
             }
+
             throw $e;
         }
     }
 
     /**
      * Checks if a template file exists within the first path from Twig's FilesystemLoader.
+     *
+     * @param array  $loaderPath The paths to the templates
+     * @param string $file       the template file like `page.twig`
+     *
+     * @return bool
      */
-    protected static function templateExists(\Twig\Loader\FilesystemLoader $loader, string $file): bool
+    protected function templateExists(array $loaderPath, string $file): bool
     {
-        return file_exists($loader->getPaths()[0] . "/{$file}");
+        return file_exists($loaderPath[0] . "/{$file}");
     }
 
     /**
      * Retrieves the global $post object.
      */
-    protected static function getPost(): ?\WP_Post
+    protected function getPost(): ?WP_Post
     {
         global $post;
+
         return sanitize_post($post);
     }
 }

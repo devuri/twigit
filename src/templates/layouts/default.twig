@@ -10,9 +10,9 @@
         <header class="header">
             {% block header %}
                 <div class="wrapper">
-                    <h1 class="hdr-logo">
+                    <!-- <h1 class="hdr-logo">
                         <a class="hdr-logo-link" href="{{ site.url }}">{{ site.name }}</a>
-                    </h1>
+                    </h1> -->
                     <nav id="nav-main" class="nav-main">
                         {% include 'partials/menu.twig' with {
                             items: menu.get_items
@@ -25,7 +25,7 @@
 
         <section id="content" class="content-wrapper">
             {% if title %}
-                <h1>{{ title }}</h1>
+                <h1>{{ title }} </h1>
             {% endif %}
             <div class="wrapper">
                 {% block content %}
