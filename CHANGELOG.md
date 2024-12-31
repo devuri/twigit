@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.6](https://github.com/devuri/twigit/compare/v0.1.5...v0.1.6) (2024-12-31)
+
+
+### Features
+
+* adds `Twigit\Toggle` for toggle settings ([22ab0b6](https://github.com/devuri/twigit/commit/22ab0b6a6d58a6e055a4dcfca2571aec593dc515))
+* special handling for `is_page` Slug Template `{$post-&gt;post_name}.twig` ([6d5f2f1](https://github.com/devuri/twigit/commit/6d5f2f14892599f4e10ed5ebcc296d335f4f7af7))
+
+
+### Bug Fixes
+
+* create templates dir automatically ([26955ab](https://github.com/devuri/twigit/commit/26955abdbb5d5bc0cb08fd8a5960ab019a94c330))
+
+
+### Miscellaneous Chores
+
+* add theme tests content ([c559d67](https://github.com/devuri/twigit/commit/c559d67030f7d250177b1f01a35d2a9440e32b5c))
+* build ([7063346](https://github.com/devuri/twigit/commit/7063346eb620206bacce332a5892d7d17d7f975b))
+
 ## [0.1.5](https://github.com/devuri/twigit/compare/v0.1.4...v0.1.5) (2024-12-26)
 
 
