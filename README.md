@@ -2,7 +2,9 @@
 
 Modern development increasingly leans toward mono repo architectures that centralize application code, dependencies, and templates in a unified repository. This approach simplifies collaboration, version control, and deployment—making it ideal for large-scale and maintainable web projects.
 
-
+ > Embrace the Hybrid CMS:
+> 
+> [A hybrid-cms approach](https://github.com/devuri/twigit/blob/main/docs/why.md) allows you to keep WordPress’ as your back end while bypassing the default theme system in favor of a templating engine like Twig.
 
 ### 1. Install Twigit via Composer
 
