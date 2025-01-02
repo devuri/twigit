@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/devuri/twigit/compare/v0.1.6...v0.1.7) (2025-01-02)
+
+
+### Bug Fixes
+
+* adss the `why` in docs Create why.md ([e8d7599](https://github.com/devuri/twigit/commit/e8d7599b375770e77a4372c5d0009b5a4f040ef3))
+
 ## [0.1.6](https://github.com/devuri/twigit/compare/v0.1.5...v0.1.6) (2024-12-31)
 
 
