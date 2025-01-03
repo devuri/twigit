@@ -16,7 +16,6 @@ composer require devuri/twigit
 
 This installs Twigit and Twig in the `vendor` directory.
 
----
 
 ### 2. Configure Twigit to Use the `templates` Directory
 
@@ -34,7 +33,6 @@ if (\defined('USE_TWIGIT') && true === \constant('USE_TWIGIT')) {
 
 > If using Raydium, many configuration steps are already handled. Learn more here: [Raydium GitHub Repository](https://github.com/devuri/raydium).
 
----
 
 ### 3. Organize Your Templates
 
@@ -50,7 +48,6 @@ mysite/
 
 You can copy and adapt Twigit's base templates from its GitHub repository:  [Twigit Base Templates](https://github.com/devuri/twigit/tree/main/src/templates)
 
----
 
 ### 4. Example Twig Template
 
