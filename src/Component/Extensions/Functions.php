@@ -127,15 +127,13 @@ class Functions extends AbstractExtension
              *  Note: Requires ACF plugin installed & active.
              */
             // Direct ACF functions
-            new TwigFunction('get_field', 'get_field'),
-            new TwigFunction('the_field', 'the_field'),
-            new TwigFunction('get_fields', 'get_fields'),
-            new TwigFunction('get_field_object', 'get_field_object'),
-            new TwigFunction('have_rows', 'have_rows'),
-            new TwigFunction('the_row', 'the_row'),
-            new TwigFunction('get_row_layout', 'get_row_layout'),
-            new TwigFunction('get_sub_field', 'get_sub_field'),
-            new TwigFunction('the_sub_field', 'the_sub_field'),
+            self::maybeAdd('get_field'),
+            self::maybeAdd('get_fields'),
+            self::maybeAdd('get_field_object'),
+            self::maybeAdd('have_rows'),
+            self::maybeAdd('the_row'),
+            self::maybeAdd('get_row_layout'),
+            self::maybeAdd('get_sub_field'),
 
             // Twigit/ACF integration
             new TwigFunction('acf_field', ['Twigit\\Integration\\AcfIntegration', 'getField']),
@@ -163,7 +161,25 @@ class Functions extends AbstractExtension
              */
             new TwigFunction('var_dump', 'var_dump'),
             new TwigFunction('print_r', 'print_r'),
-            new TwigFunction('dump', 'dump'),
+            self::maybeAdd('dump'),
         ];
+    }
+
+    /**
+     * Creates a TwigFunction for the given function name, if it exists.
+     *
+     * @param string $function The name of the function to wrap.
+     *
+     * @return TwigFunction The created TwigFunction.
+     */
+    public static function maybeAdd(string $function): TwigFunction
+    {
+        if ( ! \function_exists($function)) {
+            return new TwigFunction($function, function () use ($function) {
+                return \sprintf('Function "%s" is undefined.', $function);
+            });
+        }
+
+        return new TwigFunction($function, $function);
     }
 }
