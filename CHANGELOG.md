@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.8](https://github.com/devuri/twigit/compare/v0.1.7...v0.1.8) (2025-01-03)
+
+
+### Features
+
+* added some new functions  ([521641e](https://github.com/devuri/twigit/commit/521641e314abf38c92e5a743728a167c8790a1e9))
+
+
+### Bug Fixes
+
+* better message for `Array to string conversion` error ([da630be](https://github.com/devuri/twigit/commit/da630bea3156f22617965f2ff44d02a5d1165a2f))
+* the for added optional functions like `acf` ([f542fc5](https://github.com/devuri/twigit/commit/f542fc53c53c7450e221b78c71646edae3883489))
+* update function extensions now namespaced by groups ([83ffee8](https://github.com/devuri/twigit/commit/83ffee851605d836f339f76ba0394e48d5925152))
+
 ## [0.1.7](https://github.com/devuri/twigit/compare/v0.1.6...v0.1.7) (2025-01-02)
 
 
