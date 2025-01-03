@@ -116,6 +116,13 @@ class Template
                 throw new Exception("Unable to find template: {$selectedTemplate}");
             }
 
+            if (false !== strpos($e->getMessage(), 'to string conversion')) {
+                throw new Exception("Error: Array to string conversion. \n
+                    Try not to build complex data structures inside of Twig templates
+                     \n >> see: https://stackoverflow.com/questions/32633853/twig-array-to-string-conversion"
+                );
+            }
+
             throw $e;
         }
     }
