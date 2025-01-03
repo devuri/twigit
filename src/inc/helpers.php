@@ -58,3 +58,27 @@ function twg(string $dirPath, array $options = [], array $templates = []): Twigi
     // The `templates` directory must exist at `$dirPath/templates` for Twigit to work as expected.
     return Twigit\Twigit::init($dirPath, $options, $templates);
 }
+
+/**
+ * Retrieves the source URL, width, height, and whether the image is intermediate
+ * for a given attachment ID and specified dimensions.
+ *
+ * This function utilizes `wp_get_attachment_image_src` to retrieve the image source
+ * details for a given attachment ID, width, and height, with an optional crop parameter.
+ *
+ * @param int  $id     The attachment ID for the image.
+ * @param int  $width  The desired width of the image in pixels.
+ * @param int  $height The desired height of the image in pixels.
+ * @param bool $crop   Optional. Whether to crop the image to the specified dimensions.
+ *                     Default true.
+ *
+ * @return array|false An array containing the image URL, width, height, and a boolean
+ *                     indicating whether the image is intermediate, or false on failure.
+ *                     See {@link https://developer.wordpress.org/reference/functions/wp_get_attachment_image_src/}.
+ *
+ * @see https://developer.wordpress.org/reference/functions/wp_get_attachment_image_src/
+ */
+function tw_image_src($id, $width, $height, $crop = true)
+{
+    return wp_get_attachment_image_src($id, [$width, $height], $crop);
+}
