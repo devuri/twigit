@@ -80,7 +80,7 @@ class Context
             'charset' => get_bloginfo('charset'),
             'wp_get_document_title' => wp_get_document_title(),
             'stylesheet_url' => get_bloginfo('stylesheet_url'),
-            'body_class' => [$this, 'get_body_class'],
+            'body_class' => [$this, 'getBodyClass'],
         ];
     }
 
@@ -210,7 +210,7 @@ class Context
         }, get_posts($args));
     }
 
-    private function get_body_class($css_class = '')
+    private function getBodyClass($css_class = '')
     {
         return 'class="' . esc_attr(implode(' ', get_body_class($css_class))) . '"';
     }
