@@ -48,6 +48,7 @@ class Toggle
         add_settings_section(
             'twigit_main_section',
             'Twigit Settings',
+            // @phpstan-ignore-next-line
             null,
             'twigit-settings'
         );

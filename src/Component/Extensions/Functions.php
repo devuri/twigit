@@ -12,33 +12,25 @@
 namespace Twigit\Extensions;
 
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class Functions extends AbstractExtension
 {
     public function getFunctions(): array
     {
-        return [
-
+        return array_merge(
             /*
              * -----------------------------------------------------
              *  WordPress Core URL & Theme Hook Functions
              * -----------------------------------------------------
              */
-            new TwigFunction('site_url', 'get_site_url'),
-            new TwigFunction('home_url', 'get_home_url'),
-            new TwigFunction('wp_head', 'wp_head'),
-            new TwigFunction('wp_footer', 'wp_footer'),
-            new TwigFunction('wp_body_open', 'wp_body_open'),
-            new TwigFunction('body_class', 'body_class'),
+            Functions\Core::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Theme Directory & Asset URLs
              * -----------------------------------------------------
              */
-            new TwigFunction('get_stylesheet_directory_uri', 'get_stylesheet_directory_uri'),
-            new TwigFunction('get_template_directory_uri', 'get_template_directory_uri'),
+            Functions\DirectoryAsset::getFunctions(),
 
             /*
              * -----------------------------------------------------
@@ -46,19 +38,7 @@ class Functions extends AbstractExtension
              *  (Titles, Content, Excerpts, Permalinks, etc.)
              * -----------------------------------------------------
              */
-            new TwigFunction('get_permalink', 'get_permalink'),
-            new TwigFunction('get_the_title', 'get_the_title'),
-            new TwigFunction('get_the_excerpt', 'get_the_excerpt'),
-            new TwigFunction('get_the_content', 'get_the_content'),
-            new TwigFunction('the_post_thumbnail', 'the_post_thumbnail'),
-            new TwigFunction('get_the_post_thumbnail', 'get_the_post_thumbnail'),
-            // Translations (Localization)
-            new TwigFunction('_e', '_e'),
-            // Echoes site info
-            new TwigFunction('bloginfo', 'bloginfo'),
-            // Returns site info
-            new TwigFunction('get_bloginfo', 'get_bloginfo'),
-            new TwigFunction('get_option', 'get_option'),
+            Functions\Utility::getFunctions(),
 
             /*
              * -----------------------------------------------------
@@ -66,59 +46,42 @@ class Functions extends AbstractExtension
              *  but included for completeness in Twig)
              * -----------------------------------------------------
              */
-            new TwigFunction('have_posts', 'have_posts'),
-            new TwigFunction('the_post', 'the_post'),
+            Functions\Loops::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Comments, Menus, Widgets, Sidebars
              * -----------------------------------------------------
              */
-            new TwigFunction('wp_nav_menu', 'wp_nav_menu'),
-            new TwigFunction('comments_template', 'comments_template'),
-            new TwigFunction('dynamic_sidebar', 'dynamic_sidebar'),
-            new TwigFunction('is_active_sidebar', 'is_active_sidebar'),
+            Functions\MenusWidgets::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Attachment & Media Functions
              * -----------------------------------------------------
              */
-            new TwigFunction('wp_get_attachment_image_src', 'wp_get_attachment_image_src'),
-            new TwigFunction('wp_get_attachment_metadata', 'wp_get_attachment_metadata'),
-            new TwigFunction('wp_get_attachment_url', 'wp_get_attachment_url'),
+            Functions\Attachment::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Query & Post Retrieval
              * -----------------------------------------------------
              */
-            // Built-in WordPress query functions
-            new TwigFunction('get_posts', 'get_posts'),
-            new TwigFunction('get_post', 'get_post'),
-            // Custom Twigit Query function
-            new TwigFunction('post_query', ['Twigit\\Query\\PostQuery', 'getPosts']),
+            Functions\Query::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  WordPress Conditional Tags
              * -----------------------------------------------------
              */
-            new TwigFunction('is_singular', 'is_singular'),
-            new TwigFunction('is_archive', 'is_archive'),
-            new TwigFunction('is_home', 'is_home'),
-            new TwigFunction('is_page', 'is_page'),
-            new TwigFunction('is_category', 'is_category'),
+            Functions\Conditionals::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Taxonomies & Terms
              * -----------------------------------------------------
              */
-            new TwigFunction('get_terms', 'get_terms'),
-            new TwigFunction('get_term_link', 'get_term_link'),
-            new TwigFunction('get_the_category', 'get_the_category'),
-            new TwigFunction('the_category', 'the_category'),
+            Functions\Taxonomy::getFunctions(),
 
             /*
              * -----------------------------------------------------
@@ -126,60 +89,21 @@ class Functions extends AbstractExtension
              * -----------------------------------------------------
              *  Note: Requires ACF plugin installed & active.
              */
-            // Direct ACF functions
-            self::maybeAdd('get_field'),
-            self::maybeAdd('get_fields'),
-            self::maybeAdd('get_field_object'),
-            self::maybeAdd('have_rows'),
-            self::maybeAdd('the_row'),
-            self::maybeAdd('get_row_layout'),
-            self::maybeAdd('get_sub_field'),
-
-            // Twigit/ACF integration
-            new TwigFunction('acf_field', ['Twigit\\Integration\\AcfIntegration', 'getField']),
+            Functions\Acf::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Custom Image Processing (Twigit)
              * -----------------------------------------------------
              */
-            new TwigFunction('resize_image', ['Twigit\\Image\\ImageProcessor', 'resize']),
-            new TwigFunction('convert_to_webp', ['Twigit\\Image\\ImageProcessor', 'toWebP']),
-
-            /*
-             * -----------------------------------------------------
-             *  Custom Menus & Widgets (Twigit)
-             * -----------------------------------------------------
-             */
-            new TwigFunction('get_menu', ['Twigit\\MenuHelper', 'getMenu']),
-            new TwigFunction('render_widget', ['Twigit\\WidgetHelper', 'render']),
+            Functions\Image::getFunctions(),
 
             /*
              * -----------------------------------------------------
              *  Debug Functions
              * -----------------------------------------------------
              */
-            new TwigFunction('var_dump', 'var_dump'),
-            new TwigFunction('print_r', 'print_r'),
-            self::maybeAdd('dump'),
-        ];
-    }
-
-    /**
-     * Creates a TwigFunction for the given function name, if it exists.
-     *
-     * @param string $function The name of the function to wrap.
-     *
-     * @return TwigFunction The created TwigFunction.
-     */
-    public static function maybeAdd(string $function): TwigFunction
-    {
-        if ( ! \function_exists($function)) {
-            return new TwigFunction($function, function () use ($function) {
-                return \sprintf('Function "%s" is undefined.', $function);
-            });
-        }
-
-        return new TwigFunction($function, $function);
+            Functions\Debug::getFunctions()
+        );
     }
 }
