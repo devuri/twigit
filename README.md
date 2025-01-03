@@ -48,8 +48,7 @@ mysite/
     └── footer.twig
 ```
 
-You can copy and adapt Twigit's base templates from its GitHub repository:  
-[Twigit Base Templates](https://github.com/devuri/twigit/tree/main/src/templates)
+You can copy and adapt Twigit's base templates from its GitHub repository:  [Twigit Base Templates](https://github.com/devuri/twigit/tree/main/src/templates)
 
 ---
 
