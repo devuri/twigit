@@ -20,7 +20,7 @@
     },
     "require": {
         "php": "^7.4 || ^8.0",
-        "pimple/pimple": "3.5.*",
+        "pimple/pimple": "3.5.* || 3.6.*",
         "psr/container": "^2.0",
         "twig/twig": "3.11.3",
         "symfony/deprecation-contracts": "^2.5"
